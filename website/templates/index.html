@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wordle Admin</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .section { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .word-list { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
+        .word { padding: 5px 10px; background: #f0f0f0; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <h2>Aktuelles Tageswort: {% if daily_word %}{{ daily_word.word }}{% else %}Keins gesetzt{% endif %}</h2>
+        <form method="post" action="/set_daily">
+            <input type="text" name="word" placeholder="Wort eingeben" required pattern="[A-Za-z]{5}" title="5 Buchstaben">
+            <button type="submit">Als Tageswort festlegen</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>Wörter hinzufügen</h2>
+        <form method="post" action="/add_word">
+            <input type="text" name="word" placeholder="Neues Wort" required pattern="[A-Za-z]{5}" title="5 Buchstaben">
+            <button type="submit">Hinzufügen</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>Vorhandene Wörter ({{ words|length }})</h2>
+        <div class="word-list">
+            {% for word in words %}
+                <div class="word">{{ word.word }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
